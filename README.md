@@ -140,6 +140,23 @@ urban-safety-analytics/
 
 ---
 
+## Dashboard Preview
+
+### Executive Overview
+![Executive Overview](assets/Executive_overview.png)
+
+### Time Analysis
+![Time Analysis](assets/Time_Analysis.png)
+
+### District Analysis
+![District Analysis](assets/District_Analysis.png)
+
+### Hotspot Map
+![Hotspot Map](assets/Hotspot_Map.png)
+
+### Model Predictions
+![Model Predictions](assets/Model_Predictions.png)
+
 ## Key Insights
 
 - Crime peaks during late evening and night hours
