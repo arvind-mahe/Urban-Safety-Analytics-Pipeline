@@ -145,7 +145,7 @@ python src/export/export_powerbi.py
 - Advanced anomaly detection
 
 ## Author
-Abishek Mahendran
+Arvind Mahendran
 
 ## Conclusion
 This project demonstrates a complete data engineering and machine learning workflow, combining scalable processing, modern data tools, and real-world datasets to generate meaningful public safety insights.
