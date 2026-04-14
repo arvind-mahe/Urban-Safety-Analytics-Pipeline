@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# Data (avoid uploading large files)
+data/raw/
+data/processed/
+
+# Environment
+.env
+
+# Power BI temp files
+*.pbix
+
+# Outputs (optional)
+outputs/*.csv
+outputs/reports/
+
+# OS files
+.DS_Store
+Thumbs.db
