@@ -2,6 +2,7 @@
 
 > End-to-end data pipeline to analyze and predict crime risk using real-world public safety data from the Chicago Open Data API.
 
+
 ![Python](https://img.shields.io/badge/Python-3.x-blue) ![PySpark](https://img.shields.io/badge/PySpark-Scalable_ETL-orange) ![Polars](https://img.shields.io/badge/Polars-High_Performance-green) ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Random_Forest-yellow) ![Power BI](https://img.shields.io/badge/Power_BI-Dashboard-gold)
 
 ---
@@ -19,7 +20,7 @@ The system identifies high-risk areas and time patterns, enabling data-driven de
 - API-based ingestion of real-world crime data (50K+ records)
 - Dual ETL pipelines using PySpark and Polars
 - Feature engineering for spatiotemporal risk analysis
-- Machine learning model for predicting high-severity incidents
+- High-recall risk detection model optimized for early identification of critical incidents
 - Interactive Power BI dashboard with geospatial insights
 
 ---
@@ -106,25 +107,50 @@ urban-safety-analytics/
 - Risk indicators (high-risk time, severity score)
 
 ### 4. Machine Learning
+
 - Binary classification: high-severity vs low-severity crimes
 - Model: Random Forest
-- Train/test split with evaluation metrics
+- Addressed class imbalance using class weighting
+- Removed feature leakage to ensure realistic evaluation
+- Tuned classification threshold to prioritize recall over precision
 
 ---
 
-## Model Performance
+## Model Performance (Post-Validation)
+
+After identifying and removing feature leakage, the model was redesigned as a **high-recall risk detection system** optimized for identifying high-severity incidents.
 
 | Metric | Score |
 |---|---|
-| Accuracy | 99.79% |
-| F1 Score | 99.36% |
+| Accuracy | 43% |
+| Precision (High Severity) | 22% |
+| Recall (High Severity) | 95% |
+| F1 Score | 35% |
 
 **Confusion Matrix:**
 
 ```
-[[8339    0]
- [  21 1640]]
+[[2678 5661]
+ [  84 1577]]
 ```
+
+### Interpretation
+
+- The model captures **95% of high-severity incidents**, minimizing missed critical events
+- Higher false positives are accepted to ensure **early detection of risk**
+- Designed as an **early-warning system**, not a perfect classifier
+
+This tradeoff reflects real-world public safety systems where missing a high-risk event is more costly than raising additional alerts.
+
+---
+
+## Model Improvements
+
+- Identified and removed feature leakage (`severity_score`, `risk_score`)
+- Eliminated trivial mappings from crime category to target
+- Handled class imbalance using `class_weight="balanced"`
+- Tuned prediction threshold to optimize recall for high-risk detection
+- Evaluated precision–recall tradeoffs for real-world applicability
 
 ---
 
@@ -154,8 +180,10 @@ urban-safety-analytics/
 ### Hotspot Map
 ![Hotspot Map](assets/Hotspot_Map.png)
 
-### Model Predictions
-![Model Predictions](assets/Model_Predictions.png)
+### Risk Model Performance
+![Risk Model Performance](assets/Model_Predictions.png)
+
+---
 
 ## Key Insights
 
@@ -212,4 +240,6 @@ python src/export/export_powerbi.py
 
 ## Conclusion
 
-This project demonstrates a complete data engineering and machine learning workflow, combining scalable processing, modern data tools, and real-world datasets to generate meaningful public safety insights.
+This project demonstrates a full data engineering and machine learning lifecycle, including data ingestion, scalable processing, model development, and performance validation.
+
+By addressing feature leakage and optimizing for high-recall detection, the system reflects real-world risk modeling scenarios where early identification of critical events is prioritized over perfect accuracy.
