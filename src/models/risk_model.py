@@ -24,7 +24,7 @@ def main():
 
     # Keep only columns we need for modeling
     feature_cols = [
-        "primary_type",
+        
         "district",
         "community_area",
         "crime_hour",
@@ -33,12 +33,12 @@ def main():
         "time_bucket",
         "arrest_flag",
         "domestic_flag",
-        "severity_score",
+        
         "is_weekend",
         "high_risk_time",
-        "district_crime_count",
-        "community_crime_count",
-        "risk_score"
+        
+        
+        
     ]
 
     target_col = "high_severity_target"
@@ -52,22 +52,20 @@ def main():
     y = model_df[target_col].astype(int)
 
     categorical_features = [
-        "primary_type",
+        
         "district",
         "community_area",
         "time_bucket"
     ]
 
-    numeric_features = [
-    "crime_hour",
+    numeric_features = [    "crime_hour",
     "crime_month",
     "crime_dayofweek",
     "arrest_flag",
     "domestic_flag",
     "is_weekend",
     "high_risk_time",
-    "district_crime_count",
-    "community_crime_count"
+    
     ]
 
     numeric_transformer = Pipeline(
@@ -95,7 +93,8 @@ def main():
         n_estimators=150,
         max_depth=12,
         random_state=42,
-        n_jobs=-1
+        n_jobs=-1,
+        class_weight="balanced"
     )
 
     pipeline = Pipeline(
@@ -117,7 +116,8 @@ def main():
     pipeline.fit(X_train, y_train)
 
     print("Generating predictions...")
-    y_pred = pipeline.predict(X_test)
+    y_prob=pipeline.predict_proba(X_test)[:,1]
+    y_pred=(y_prob>0.3).astype(int)
 
     acc = accuracy_score(y_test, y_pred)
     f1 = f1_score(y_test, y_pred)
@@ -172,6 +172,8 @@ def main():
 
     print(f"Predictions saved to: {predictions_path}")
     print(f"Metrics report saved to: {report_path}")
+    print("Min prob:", y_prob.min(), "Max prob:", y_prob.max())
+    print("Sample probs:", y_prob[:10])
 
 
 if __name__ == "__main__":
